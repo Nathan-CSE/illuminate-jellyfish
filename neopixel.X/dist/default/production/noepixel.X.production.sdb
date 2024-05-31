@@ -1,0 +1,91 @@
+[p GLOBOPT AUTOSTATIC IEEE_DBL IEEE_FLT PIC14 PICREGULAR PICMID ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 16F877A ]
+[d frameptr 0 ]
+"10 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"4 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul8_16.c
+[v __Umul8_16 _Umul8_16 `(ui  1 e 2 0 ]
+"6 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\pic\__eeprom.c
+[v ___eecpymem __eecpymem `(v  1 e 1 0 ]
+"39
+[v ___memcpyee __memcpyee `(v  1 e 1 0 ]
+"22 C:\Users\Nathan\MPLABXProjects\noepixel.X\main.c
+[v _main main `(v  1 e 1 0 ]
+"51
+[v _sendBit sendBit `(v  1 e 1 0 ]
+"79
+[v _sendByte sendByte `(v  1 e 1 0 ]
+"86
+[v _sendPixel sendPixel `(v  1 e 1 0 ]
+[s S27 . 1 `uc 1 RC0 1 0 :1:0 
+`uc 1 RC1 1 0 :1:1 
+`uc 1 RC2 1 0 :1:2 
+`uc 1 RC3 1 0 :1:3 
+`uc 1 RC4 1 0 :1:4 
+`uc 1 RC5 1 0 :1:5 
+`uc 1 RC6 1 0 :1:6 
+`uc 1 RC7 1 0 :1:7 
+]
+"295 C:/Program Files/Microchip/MPLABX/v6.20/packs/Microchip/PIC16Fxxx_DFP/1.6.156/xc8\pic\include\proc\pic16f877a.h
+[u S36 . 1 `S27 1 . 1 0 ]
+[v _PORTCbits PORTCbits `VES36  1 e 1 @7 ]
+[s S61 . 1 `uc 1 RD0 1 0 :1:0 
+`uc 1 RD1 1 0 :1:1 
+`uc 1 RD2 1 0 :1:2 
+`uc 1 RD3 1 0 :1:3 
+`uc 1 RD4 1 0 :1:4 
+`uc 1 RD5 1 0 :1:5 
+`uc 1 RD6 1 0 :1:6 
+`uc 1 RD7 1 0 :1:7 
+]
+"357
+[u S70 . 1 `S61 1 . 1 0 ]
+[v _PORTDbits PORTDbits `VES70  1 e 1 @8 ]
+"2963
+[v _TRISC0 TRISC0 `VEb  1 e 0 @1080 ]
+"2966
+[v _TRISC1 TRISC1 `VEb  1 e 0 @1081 ]
+"2969
+[v _TRISC2 TRISC2 `VEb  1 e 0 @1082 ]
+"2972
+[v _TRISC3 TRISC3 `VEb  1 e 0 @1083 ]
+"2990
+[v _TRISD1 TRISD1 `VEb  1 e 0 @1089 ]
+"22 C:\Users\Nathan\MPLABXProjects\noepixel.X\main.c
+[v _main main `(v  1 e 1 0 ]
+{
+"49
+} 0
+"86
+[v _sendPixel sendPixel `(v  1 e 1 0 ]
+{
+[v sendPixel@r r `uc  1 a 1 wreg ]
+[v sendPixel@r r `uc  1 a 1 wreg ]
+[v sendPixel@g g `uc  1 p 1 5 ]
+[v sendPixel@b b `uc  1 p 1 6 ]
+[v sendPixel@r r `uc  1 a 1 7 ]
+"90
+} 0
+"79
+[v _sendByte sendByte `(v  1 e 1 0 ]
+{
+[v sendByte@byteVal byteVal `uc  1 a 1 wreg ]
+"81
+[v sendByte@i i `uc  1 a 1 4 ]
+"79
+[v sendByte@byteVal byteVal `uc  1 a 1 wreg ]
+"81
+[v sendByte@byteVal byteVal `uc  1 a 1 3 ]
+"84
+} 0
+"51
+[v _sendBit sendBit `(v  1 e 1 0 ]
+{
+[v sendBit@bitVal bitVal `uc  1 a 1 wreg ]
+[v sendBit@bitVal bitVal `uc  1 a 1 wreg ]
+"56
+[v sendBit@bitVal bitVal `uc  1 a 1 1 ]
+"77
+} 0
