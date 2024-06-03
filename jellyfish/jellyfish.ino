@@ -92,8 +92,10 @@ void ChangePalettePeriodically()
     // pew();
     // chaseEffect();
     // rgb_snowfall();
-    // snowfall();
-    CascadingPattern();
+    snowfall(CHSV(100,0,255), CHSV(100,0,100), CHSV(100,0,50));
+    // snowfall(CRGB(255,50,255), CRGB(123,100,82), CRGB(301,100,48));
+    // twinkle();
+    // CascadingPattern();
 
     // if( lastSecond != secondHand) {
     //     lastSecond = secondHand;
@@ -110,13 +112,6 @@ void ChangePalettePeriodically()
 void CascadingPattern() {
     
     fill_solid(top_leds,25,CRGB(0, 255, 20)); 
-
-    int starter_leds_asc[5] = {10,30,50,70,90};
-    int ender_leds_asc[5] = {19,39,59,79,99};
-    int starter_leds_desc[5] = {9,29,49,69,89};
-    int ender_leds_desc[5] = {0,20,40,60,80};
-    int die_asc[5] = {10,30,50,70,90};
-    int die_desc[5] = {9,29,49,69,89};
 
     for (int t = 0; t < 20; t++) {
         for (int i = 0; i < 5; i++) {
@@ -159,7 +154,7 @@ void IlluminatePalette()
 }
 
 
-void snowfall()
+void snowfall(CHSV firstColour, CHSV secondColour, CHSV thirdColour)
 {
 
     fill_solid(top_leds,25,CRGB::White);
@@ -170,11 +165,14 @@ void snowfall()
             for (int j = 0; j < 4; j++) { //changing four leds
                 number[j] = (die_asc[i] + t - j) % 10 + starter_leds_asc[i];
             }
-            middle_leds[number[0]] = CHSV(100,0,255);
-            // middle_leds[number[1]] = CRGB::Red;
-            // middle_leds[number[2]] = CRGB::Green;
-            middle_leds[number[1]] = CHSV(100,0,100);
-            middle_leds[number[2]] = CHSV(100,0,50);
+            // middle_leds[number[0]] = CHSV(100,0,255);
+            // middle_leds[number[1]] = CHSV(100,0,100);
+            // middle_leds[number[2]] = CHSV(100,0,50);
+            // middle_leds[number[3]] = CHSV(0,0,0);
+
+            middle_leds[number[0]] = firstColour;
+            middle_leds[number[1]] = secondColour;
+            middle_leds[number[2]] = thirdColour;
             middle_leds[number[3]] = CHSV(0,0,0);
         }
         
@@ -183,27 +181,44 @@ void snowfall()
             for (int j = 0; j < 4; j++) {
                 number[j] = (die_desc[i] - t + j) % 10 + ender_leds_desc[i];
             }
-            middle_leds[number[0]] = CHSV(100,0,255);
-            // middle_leds[number[1]] = CRGB::Red;
-            // middle_leds[number[2]] = CRGB::Green;
+            // middle_leds[number[0]] = CHSV(100,0,255);
+            // middle_leds[number[1]] = CHSV(100,0,100);
+            // middle_leds[number[2]] = CHSV(100,0,50);
+            // middle_leds[number[3]] = CHSV(0,0,0);
 
+            middle_leds[number[0]] = firstColour;
+            middle_leds[number[1]] = secondColour;
+            middle_leds[number[2]] = thirdColour;
+            middle_leds[number[3]] = CHSV(0,0,0);
+        }
+            
+        for (int i = 0; i < 5; i++) {
             middle_leds[number[1]] = CHSV(100,0,100);
             middle_leds[number[2]] = CHSV(100,0,50);
             middle_leds[number[3]] = CHSV(0,0,0);
         }
-            
-        // // here 
-        
-        // for (int i = 0; i < 5; i++) {
 
-        //     middle_leds[number[1]] = CHSV(100,0,100);
-        //     middle_leds[number[2]] = CHSV(100,0,50);
-        //     middle_leds[number[3]] = CHSV(0,0,0);
+        if (t % 5 == 0){ // THIS IS DOING TWO STEPS EVERY LED INCREMENT
+            for (int i = 0; i < 5; i++){
 
-        
-        //   }
+            }
+            middle_leds[number[1]] = CHSV(100,0,100);
+            middle_leds[number[2]] = CHSV(100,0,50);
+            middle_leds[number[3]] = CHSV(0,0,0);
+        } 
+        else if (t % 5 == 1){
+        }
+        else if (t % 5 == 2){
+        }
+        else if (t % 5 == 3){
+        }
+        else if (t % 5 == 4){
+        }
+        // This code should actually be written as two for loops for 4x, for 1 to 5 (for circling middle)
+        // NOPE NOPE NOPE 20 leds because two strips 
 
-
+        // FOR 20 
+        // FOR 5
 
 
         FastLED.show();
@@ -240,10 +255,17 @@ void rgb_snowfall () {
     }
 }
 
-// void twinkle() {
-//     rand() % 10;
-    
-// }
+void twinkle() {
+    int array[10];
+    for (int i = 0; i < 5; i++) {
+        rand() % 10;
+        rand() % 10;
+    }
+    for (int i = 0; i < 5; i++) {
+        rand() % 10;
+        rand() % 10;
+    }
+}
 
 void pew() {
     
