@@ -12,7 +12,6 @@ This is the repository for the Infinity Jellyfish for UNSW Illuminate. The proje
 
 ## Build Photos!
 
-
-![Photo 1](media/photo1.jpg)
-![Photo 2](media/photo2.jpg)
-![Photo 3](media/photo3.jpg)
+<img src="media/photo1.jpg" alt="Photo 1" width="200"/>
+<img src="media/photo2.jpg" alt="Photo 2" width="200"/>
+<img src="media/photo3.jpg" alt="Photo 3" width="200"/>
