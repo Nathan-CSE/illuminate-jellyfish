@@ -1,13 +1,13 @@
 #include <FastLED.h>
 
 #define TOP_LED_PIN    2
-#define MIDDLE_LED_PIN 3
-#define BOTTOM_LED_PIN 4
-#define NUM_TOP_LEDS         25
-#define NUM_MID_LEDS        100
-#define BRIGHTNESS      64
-// #define LED_TYPE    WS2811
-#define COLOR_ORDER GRB
+#define OUTER_LED_PIN 3
+#define NUM_INNER_LEDS         25
+// 100 for middle, 55 for outer
+#define NUM_OUTER_LEDS        155 
+
+#define BRIGHTNESS      255
+
 #define FADE_AMOUNT     255
 #define TWINKLE_SPEED 3 // modified
 #define TWINKLE_DENSITY 5 // modified
@@ -15,8 +15,8 @@
 
 
 // Array of LEDs
-CRGB top_leds[NUM_TOP_LEDS];
-CRGB middle_leds[NUM_MID_LEDS];
+CRGB top_leds[NUM_INNER_LEDS];
+CRGB middle_leds[NUM_OUTER_LEDS];
 
 #define UPDATES_PER_SECOND 100
  
@@ -33,8 +33,8 @@ struct LEDFade {
     bool fadingUp;
 };
 
-LEDFade topLedFades[NUM_TOP_LEDS];
-LEDFade middleLedFades[NUM_MID_LEDS];
+LEDFade topLedFades[NUM_INNER_LEDS];
+LEDFade middleLedFades[NUM_OUTER_LEDS];
 
 // LED mappings used in the pew
 int starter_leds_asc[5] = {10,30,50,70,90};
@@ -51,8 +51,8 @@ void setup() {
     delay(3000);
     
     // This adds the LEDs on pin 2/3
-    FastLED.addLeds<NEOPIXEL, TOP_LED_PIN>(top_leds, 125).setCorrection(TypicalLEDStrip);
-    FastLED.addLeds<NEOPIXEL, MIDDLE_LED_PIN>(middle_leds, 125).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<NEOPIXEL, TOP_LED_PIN>(top_leds, 25).setCorrection(TypicalLEDStrip);
+    FastLED.addLeds<NEOPIXEL, OUTER_LED_PIN>(middle_leds, 200).setCorrection(TypicalLEDStrip);
     
     FastLED.setBrightness(BRIGHTNESS);
     
@@ -63,53 +63,60 @@ void setup() {
 
 void loop()
 {    
-    ChangePalettePeriodically();
+    // fill_solid(top_leds, 25, CRGB(100,0,255));
+    // fill_solid(middle_leds, 200, CRGB(100,0,255));
+
+    pew(); // No idea for the outer ring
+    // CascadingPattern(); 
+    // chaseEffect(); // WHYYYYY
+    // rgb_snowfall();
 
     FastLED.show();
 
+    delay(30);
     //Base code for delays
     FastLED.delay(1000 / UPDATES_PER_SECOND);
 
 }
  
 // This changes the pattern every 15 seconds.
-void ChangePalettePeriodically()
-{
-    uint8_t secondHand = (millis() / 1000) % 60;
-    static uint8_t lastSecond = 99;
+// void ChangePalettePeriodically()
+// {
+//     uint8_t secondHand = (millis() / 1000) % 60;
+//     static uint8_t lastSecond = 99;
 
-    // randomSparkle(top_leds, topLedFades, 25, 5, 10);
-    // randomSparkle(middle_leds, middleLedFades,  100, 3, 5);
-    // delay(DELAY_DURATION);
+//     // randomSparkle(top_leds, topLedFades, 25, 5, 10);
+//     // randomSparkle(middle_leds, middleLedFades,  100, 3, 5);
+//     // delay(DELAY_DURATION);
 
-    if (lastSecond != secondHand) {
-        lastSecond = secondHand;
-
-        if (secondHand == 0)  {
-            snowfall(CHSV(100,0,255), CHSV(100,0,100), CHSV(100,0,50));
-        }
+//     if (lastSecond != secondHand) {
+//         lastSecond = secondHand;
+                     
+//         if (secondHand == 0)  {
+//             snowfall(CHSV(100,0,255), CHSV(100,0,100), CHSV(100,0,50));
+//         }
         
-        if (secondHand == 15) {
-            pew();
-        }
+//         if (secondHand == 15) {
+//             pew();
+//         }
         
-        if (secondHand == 30) {
-            chaseEffect();
-        }
+//         if (secondHand == 30) {
+//             chaseEffect();
+//         }
         
-        if (secondHand == 45) { 
-            randomSparkle(top_leds, topLedFades, 25, 5, 10);
-            randomSparkle(middle_leds, middleLedFades,  100, 3, 5);
-        }
+//         if (secondHand == 45) { 
+//             randomSparkle(top_leds, topLedFades, 25, 5, 10);
+//             randomSparkle(middle_leds, middleLedFades,  100, 3, 5);
+//         }
         
-        if (secondHand == 60) {
-            CascadingPattern();
-        }
-    }
-}
+//         if (secondHand == 60) {
+//             CascadingPattern();
+//         }
+//     }
+// }
 
 void CascadingPattern() {
-    
+    // Its broken, in the same way that it was last time
     fill_solid(top_leds,25,CRGB(0, 255, 20)); 
 
     for (int t = 0; t < 20; t++) {
@@ -139,12 +146,15 @@ void CascadingPattern() {
     }
 }
 
+
+
 void snowfall(CHSV firstColour, CHSV secondColour, CHSV thirdColour)
 {
-
+    //Its because the changes were reversed
     fill_solid(top_leds,25,CRGB::White);
 
     for (int t = 0; t < 20; t++) { // 20 leds
+
         for (int i = 0; i < 5; i++) { //5 sides 
             int number[4] = {0}; 
             for (int j = 0; j < 4; j++) { //changing four leds
@@ -162,19 +172,23 @@ void snowfall(CHSV firstColour, CHSV secondColour, CHSV thirdColour)
             for (int j = 0; j < 4; j++) {
                 number[j] = (die_desc[i] - t + j) % 10 + ender_leds_desc[i];
             }
-
             middle_leds[number[0]] = firstColour;
             middle_leds[number[1]] = secondColour;
             middle_leds[number[2]] = thirdColour;
             middle_leds[number[3]] = CHSV(0,0,0);
         }
-
+        
         FastLED.show();
         delay(100);
     }
+
+
 }
 
+  
 void pew() {
+    
+    fill_gradient_RGB(middle_leds, 99, CRGB::Blue, 154, CRGB::Purple);
     
     for (int x = 0; x < 250; x++) {
 
@@ -199,7 +213,7 @@ void chaseEffect() {
   // top ring 0-24
   // mid ring 25-124
   int top_ring_len = 25;
-  int middle_ring_len = 100;
+  int middle_ring_len = 155;
 
   CRGBPalette16 palette(
     // CRGB::Amethyst,
@@ -231,6 +245,62 @@ void chaseEffect() {
     index = index % 256;
     FastLED.show();
   }
+}
+void rgb_snowfall () {
+    
+  for (int t = 0; t < 20; t++) {
+        for (int i = 0; i < 5; i++) {
+            int number[4] = {0};
+            for (int j = 0; j < 4; j++) {
+                number[j] = (die_asc[i] + t - j) % 10 + starter_leds_asc[i];
+            }
+            middle_leds[number[0]] = CRGB(255,50,255);
+            middle_leds[number[1]] = CRGB(123,100,82);
+            middle_leds[number[2]] = CRGB(301,100,48);
+            middle_leds[number[3]] = CHSV(0,0,0);
+        }
+        
+        for (int i = 0; i < 5; i++) {
+            int number[4] = {0};
+            for (int j = 0; j < 4; j++) {
+                number[j] = (die_desc[i] - t + j) % 10 + ender_leds_desc[i];
+            }
+            middle_leds[number[0]] = CRGB(255,50,255);
+            middle_leds[number[1]] = CRGB(123,100,82);
+            middle_leds[number[2]] = CRGB(301,100,48);
+            middle_leds[number[3]] = CHSV(0,0,0);
+        }
+        FastLED.show();
+        delay(100);
+    }
+}
+void snowfall () {
+    
+  for (int t = 0; t < 20; t++) {
+        for (int i = 0; i < 5; i++) {
+            int number[4] = {0};
+            for (int j = 0; j < 4; j++) {
+                number[j] = (die_asc[i] + t - j) % 10 + starter_leds_asc[i];
+            }
+            middle_leds[number[0]] = CHSV(100,0,255);
+            middle_leds[number[1]] = CHSV(100,0,1000);
+            middle_leds[number[2]] =  CHSV(100,0,50);
+            middle_leds[number[3]] = CHSV(0,0,0);
+        }
+        
+        for (int i = 0; i < 5; i++) {
+            int number[4] = {0};
+            for (int j = 0; j < 4; j++) {
+                number[j] = (die_desc[i] - t + j) % 10 + ender_leds_desc[i];
+            }
+            middle_leds[number[0]] = CHSV(100,0,255);
+            middle_leds[number[1]] = CHSV(100,0,1000);
+            middle_leds[number[2]] =  CHSV(100,0,50);
+            middle_leds[number[3]] = CHSV(0,0,0);
+        }
+        FastLED.show();
+        delay(100);
+    }
 }
 
 void randomSparkle(CRGB* leds, LEDFade* ledFades, int numLeds, int minTwinkle, int maxTwinkle) {
